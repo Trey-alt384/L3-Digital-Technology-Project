@@ -47,7 +47,7 @@ class Scan : AppCompatActivity() {
                     tv_textView.text = it.text
                 }
             }
-
+            //callback if there is an error with the camera
             errorCallback = ErrorCallback {
                 runOnUiThread {
                     Log.e("Main", "Camera initialization error : ${it.message}")

@@ -26,13 +26,13 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
+        //registers to each button and id, e.g. eRegName in code = button with id etRegName
         eRegName = findViewById(R.id.etRegName);
         eRegPassword = findViewById(R.id.etRegPassword);
         eRegister = findViewById(R.id.btnRegister);
 
         credentials = new Credentials();
-
+        //shared preference is used for the credentials database, which is kept private so you can't see for security reasons
         sharedPreferences = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
 
@@ -44,7 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 credentials.loadCredentials(preferencesMap);
             }
         }
-
+        //When register button is clicked, registers the users account while checking if a username is taken, then sends user back to MainActivity.class
         eRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,18 +53,18 @@ public class RegistrationActivity extends AppCompatActivity {
                 String regPassword = eRegPassword.getText().toString();
 
                 if(validate(regUsername, regPassword)){
-
+                    //checks username to see if it is already taken
                     if(credentials.checkUsername(regUsername)){
                         Toast.makeText(RegistrationActivity.this, "Username is taken", Toast.LENGTH_SHORT).show();
                     }else{
-
+                        //adds credentials to offline database so that it can be reused
                         credentials.addCredentials(regUsername, regPassword);
-
+                        //saves the last used username and last used password
                         sharedPreferencesEditor.putString(regUsername, regPassword);
                         sharedPreferencesEditor.putString("LastSavedUsername", "");
                         sharedPreferencesEditor.putString("LastSavedPassword","");
                         sharedPreferencesEditor.apply();
-
+                        //returns user to sign in page
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                     }
 
